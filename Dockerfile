@@ -24,16 +24,10 @@ RUN apt-get update -y && \
     python2.7-dev \
     python3.5-dev \
     python3.6-dev \
+    python3.7-dev \
     shellcheck \
     && \
     apt-get clean
-
-ADD https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer /tmp/pyenv-installer
-RUN bash -c 'PYENV_ROOT=/usr/local/opt/pyenv bash /tmp/pyenv-installer'
-COPY files/python* /tmp/
-RUN bash -c 'PYENV_ROOT=/usr/local/opt/pyenv /usr/local/opt/pyenv/bin/pyenv install /tmp/python3.7.0a2'
-RUN ln -s /usr/local/opt/pyenv/versions/python3.7.0a2/bin/python3.7 /usr/local/bin/python3.7
-RUN ln -s /usr/local/opt/pyenv/versions/python3.7.0a2/bin/pip3.7 /usr/local/bin/pip3.7
 
 RUN rm /etc/apt/apt.conf.d/docker-clean
 RUN locale-gen en_US.UTF-8
