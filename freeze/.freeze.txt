@@ -1,0 +1,2 @@
+# The requirements in this directory for each Python version will be used to build the container.
+# If there are no other files in this directory the requirements directory will be used instead.

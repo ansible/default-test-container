@@ -1,29 +1,43 @@
 #!/bin/bash -eu
 
-cd "$(dirname "$0")/requirements/"
-
 python_version="$1"
 
-requirements=()
+echo "==> Selecting requirements for python ${python_version} ..."
 
-for requirement in *.txt; do
-    if [ "${requirement}" != "constraints.txt" ]; then
-        requirements+=("${requirement}")
-    fi
-done
+freeze_dir="$(dirname "$0")/freeze"
+requirements_dir="$(dirname "$0")/requirements"
+constraints="${requirements_dir}/constraints.txt"
 
-version_requirements=()
+if [ "$(ls "${freeze_dir}")" ]; then
+    echo "Using requirements directory: ${freeze_dir}"
+    cd "${freeze_dir}"
 
-for requirement in "${requirements[@]}"; do
-    case "${python_version}" in
-        "2.6")
-            case "${requirement}" in
-                "integration.cloud.azure.txt") continue ;;
-            esac
-    esac
+    version_requirements=("${python_version}.txt")
+else
+    echo "Using requirements directory: ${requirements_dir}"
+    cd "${requirements_dir}"
 
-    version_requirements+=("${requirement}")
-done
+    requirements=()
+
+    for requirement in *.txt; do
+        if [ "${requirement}" != "constraints.txt" ]; then
+            requirements+=("${requirement}")
+        fi
+    done
+
+    version_requirements=()
+
+    for requirement in "${requirements[@]}"; do
+        case "${python_version}" in
+            "2.6")
+                case "${requirement}" in
+                    "integration.cloud.azure.txt") continue ;;
+                esac
+        esac
+
+        version_requirements+=("${requirement}")
+    done
+fi
 
 if [ "${python_version}" = "2.6" ]; then
     get_pip="/tmp/get-pip2.6.py"
@@ -35,7 +49,7 @@ echo "==> Installing pip for python ${python_version} ..."
 
 set -x
 "python${python_version}" --version
-"python${python_version}" "${get_pip}" --disable-pip-version-check -c constraints.txt 'pip==9.0.2'
+"python${python_version}" "${get_pip}" --disable-pip-version-check -c "${constraints}" 'pip==9.0.2'
 "pip${python_version}" --version --disable-pip-version-check
 set +x
 
@@ -43,7 +57,7 @@ echo "==> Installing requirements for python ${python_version} ..."
 
 for requirement in "${version_requirements[@]}"; do
     set -x
-    "pip${python_version}" install --disable-pip-version-check -c constraints.txt -r "${requirement}"
+    "pip${python_version}" install --disable-pip-version-check -c "${constraints}" -r "${requirement}"
     set +x
 done
 
@@ -55,7 +69,7 @@ for requirement in "${version_requirements[@]}"; do
     before="${after}"
 
     set -x
-    "pip${python_version}" install --disable-pip-version-check -c constraints.txt -r "${requirement}"
+    "pip${python_version}" install --disable-pip-version-check -c "${constraints}" -r "${requirement}"
     set +x
 
     after=$("pip${python_version}" list --disable-pip-version-check --format=columns)

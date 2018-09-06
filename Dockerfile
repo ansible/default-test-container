@@ -37,6 +37,7 @@ ADD https://bootstrap.pypa.io/get-pip.py /tmp/get-pip.py
 ADD https://bootstrap.pypa.io/2.6/get-pip.py /tmp/get-pip2.6.py
 
 COPY requirements/*.txt /tmp/requirements/
+COPY freeze/*.txt /tmp/freeze/
 COPY files/requirements.sh /tmp/
 
 RUN /tmp/requirements.sh 2.6
