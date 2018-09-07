@@ -23,13 +23,17 @@ def main():
 
         path = os.path.join(requirements_dir, name)
 
-        untouched_paths.remove(path)
+        if path in untouched_paths:
+            untouched_paths.remove(path)
 
         with urllib.request.urlopen(download_url) as response:
             latest_contents = response.read().decode()
 
-        with open(path, 'r') as contents_fd:
-            current_contents = contents_fd.read()
+        if os.path.exists(path):
+            with open(path, 'r') as contents_fd:
+                current_contents = contents_fd.read()
+        else:
+            current_contents = ''
 
         if latest_contents == current_contents:
             print('%s: current' % path)
