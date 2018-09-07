@@ -33,19 +33,6 @@ RUN rm /etc/apt/apt.conf.d/docker-clean
 RUN locale-gen en_US.UTF-8
 VOLUME /sys/fs/cgroup /run/lock /run /tmp
 
-ADD https://bootstrap.pypa.io/get-pip.py /tmp/get-pip.py
-ADD https://bootstrap.pypa.io/2.6/get-pip.py /tmp/get-pip2.6.py
-
-COPY requirements/*.txt /tmp/requirements/
-COPY freeze/*.txt /tmp/freeze/
-COPY files/requirements.sh /tmp/
-
-RUN /tmp/requirements.sh 2.6
-RUN /tmp/requirements.sh 2.7
-RUN /tmp/requirements.sh 3.5
-RUN /tmp/requirements.sh 3.6
-RUN /tmp/requirements.sh 3.7
-
 RUN ln -s python2.7 /usr/bin/python2
 RUN ln -s python3.6 /usr/bin/python3
 RUN ln -s python3   /usr/bin/python
@@ -75,3 +62,18 @@ RUN /tmp/sanity.ps1
 
 ENV container=docker
 CMD ["/sbin/init"]
+
+# Install pip and requirements last to speed up local container rebuilds when updating requirements.
+
+ADD https://bootstrap.pypa.io/get-pip.py /tmp/get-pip.py
+ADD https://bootstrap.pypa.io/2.6/get-pip.py /tmp/get-pip2.6.py
+
+COPY files/requirements.sh /tmp/
+COPY requirements/*.txt /tmp/requirements/
+COPY freeze/*.txt /tmp/freeze/
+
+RUN /tmp/requirements.sh 2.6
+RUN /tmp/requirements.sh 2.7
+RUN /tmp/requirements.sh 3.5
+RUN /tmp/requirements.sh 3.6
+RUN /tmp/requirements.sh 3.7
