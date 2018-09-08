@@ -32,6 +32,7 @@ else
             "2.6")
                 case "${requirement}" in
                     "integration.cloud.azure.txt") continue ;;
+                    "integration.cloud.openshift.txt") continue ;;
                 esac
         esac
 
