@@ -20,14 +20,12 @@ RUN apt-get update -y && \
     make \
     openssh-client \
     openssl \
-    python2.6-dev \
     python2.7-dev \
-    python3.5-dev \
     python3.6-dev \
-    python3.7-dev \
     shellcheck \
     && \
     apt-get clean
+    apt-get autoremove -y
 
 RUN rm /etc/apt/apt.conf.d/docker-clean
 RUN locale-gen en_US.UTF-8
@@ -44,7 +42,8 @@ RUN apt-get update -y && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     apt-transport-https \
     && \
-    apt-get clean
+    apt-get clean -y
+    apt-get autoremove -y
 ADD https://packages.microsoft.com/config/ubuntu/16.04/prod.list /etc/apt/sources.list.d/microsoft.list
 RUN curl --silent https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
 RUN apt-get update -y && \
@@ -54,9 +53,10 @@ RUN apt-get update -y && \
     && \
     find /usr/share/dotnet/sdk/NuGetFallbackFolder/ -name '*.xml' -type f -delete \
     && \
-    apt-get clean
-RUN dotnet --version
-RUN pwsh --version
+    apt-get clean -y
+    apt-get autoremove -y
+RUN dotnet --version &&\
+    pwsh --version
 COPY requirements/sanity.ps1 /tmp/
 RUN /tmp/sanity.ps1
 
@@ -72,8 +72,5 @@ COPY files/requirements.sh /tmp/
 COPY requirements/*.txt /tmp/requirements/
 COPY freeze/*.txt /tmp/freeze/
 
-RUN /tmp/requirements.sh 2.6
 RUN /tmp/requirements.sh 2.7
-RUN /tmp/requirements.sh 3.5
 RUN /tmp/requirements.sh 3.6
-RUN /tmp/requirements.sh 3.7
