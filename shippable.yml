@@ -2,4 +2,4 @@ language: python
 
 build:
   ci:
-      - docker build -t .
+      - docker build .
