@@ -6,16 +6,21 @@ echo "==> Selecting requirements for python ${python_version} ..."
 
 freeze_dir="$(dirname "$0")/freeze"
 requirements_dir="$(dirname "$0")/requirements"
-constraints="${requirements_dir}/constraints.txt"
+
+version_requirements=("/tmp/early-requirements.txt")
 
 if [ "$(ls "${freeze_dir}")" ]; then
     echo "Using requirements directory: ${freeze_dir}"
     cd "${freeze_dir}"
 
-    version_requirements=("${python_version}.txt")
+    constraints="${python_version}.txt"
+
+    version_requirements+=("${python_version}.txt")
 else
     echo "Using requirements directory: ${requirements_dir}"
     cd "${requirements_dir}"
+
+    constraints="${requirements_dir}/constraints.txt"
 
     requirements=()
 
@@ -24,8 +29,6 @@ else
             requirements+=("${requirement}")
         fi
     done
-
-    version_requirements=()
 
     for requirement in "${requirements[@]}"; do
         case "${python_version}" in
