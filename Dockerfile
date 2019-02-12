@@ -29,6 +29,13 @@ RUN apt-get update -y && \
     && \
     apt-get clean
 
+ADD https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer /tmp/pyenv-installer
+RUN bash -c 'PYENV_ROOT=/usr/local/opt/pyenv bash /tmp/pyenv-installer'
+COPY files/python* /tmp/
+RUN bash -c 'PYENV_ROOT=/usr/local/opt/pyenv /usr/local/opt/pyenv/bin/pyenv install /tmp/python3.8.0*'
+RUN ln -s /usr/local/opt/pyenv/versions/python3.8.0*/bin/python3.8 /usr/local/bin/python3.8
+RUN ln -s /usr/local/opt/pyenv/versions/python3.8.0*/bin/pip3.8 /usr/local/bin/pip3.8
+
 RUN rm /etc/apt/apt.conf.d/docker-clean
 RUN locale-gen en_US.UTF-8
 VOLUME /sys/fs/cgroup /run/lock /run /tmp
@@ -77,4 +84,5 @@ RUN /tmp/requirements.sh 2.6
 RUN /tmp/requirements.sh 2.7
 RUN /tmp/requirements.sh 3.5
 RUN /tmp/requirements.sh 3.7
+RUN /tmp/requirements.sh 3.8
 RUN /tmp/requirements.sh 3.6

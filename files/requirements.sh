@@ -1,15 +1,20 @@
 #!/bin/bash -eu
 
 python_version="$1"
+python=("python${python_version}")
 
-echo "==> Selecting requirements for python ${python_version} ..."
+echo "==> Checking full python version for python ${python_version}"
+
+"${python[@]}" --version
+
+echo "==> Selecting requirements for python ${python_version}"
 
 freeze_dir="$(dirname "$0")/freeze"
 requirements_dir="$(dirname "$0")/requirements"
 
 version_requirements=("/tmp/early-requirements.txt")
 
-if [ "$(ls "${freeze_dir}")" ]; then
+if [[ "$(ls "${freeze_dir}")" ]]; then
     echo "Using requirements directory: ${freeze_dir}"
     cd "${freeze_dir}"
 
@@ -25,7 +30,7 @@ else
     requirements=()
 
     for requirement in *.txt; do
-        if [ "${requirement}" != "constraints.txt" ]; then
+        if [[ "${requirement}" != "constraints.txt" ]]; then
             requirements+=("${requirement}")
         fi
     done
@@ -44,42 +49,63 @@ else
     done
 fi
 
-if [ "${python_version}" = "2.6" ]; then
-    get_pip="/tmp/get-pip2.6.py"
-else
-    get_pip="/tmp/get-pip.py"
+echo "Using constraints file: ${constraints}"
+
+get_pip_tmp="/tmp/get-pip.py"
+pip_version="19.0.2"
+
+if [[ "${python_version}" = "2.6" ]]; then
+    get_pip_tmp="/tmp/get-pip2.6.py"
+    pip_version="9.0.3"
+    # DEPRECATION: Python 2.6 is no longer supported by the Python core team, please upgrade your Python. A future version of pip will drop support for Python 2.6
+    python+=(-W 'ignore:Python 2.6 is no longer supported ')
+    # /tmp/{random}/pip.zip/pip/_vendor/urllib3/util/ssl_.py:339: SNIMissingWarning: An HTTPS request has been made, but the SNI (Subject Name Indication) extension to TLS is not available on this platform. This may cause the server to present an incorrect TLS certificate, which can cause validation failures. You can upgrade to a newer version of Python to solve this. For more information, see https://urllib3.readthedocs.io/en/latest/advanced-usage.html#ssl-warnings
+    python+=(-W 'ignore:An HTTPS request has been made, but the SNI ')
+    # /tmp/{random}/pip.zip/pip/_vendor/urllib3/util/ssl_.py:137: InsecurePlatformWarning: A true SSLContext object is not available. This prevents urllib3 from configuring SSL appropriately and may cause certain SSL connections to fail. You can upgrade to a newer version of Python to solve this. For more information, see https://urllib3.readthedocs.io/en/latest/advanced-usage.html#ssl-warnings
+    python+=(-W 'ignore:A true SSLContext ')
+elif [[ "${python_version}" = "2.7" ]]; then
+    # DEPRECATION: Python 2.7 will reach the end of its life on January 1st, 2020. Please upgrade your Python as Python 2.7 won't be maintained after that date. A future version of pip will drop support for Python 2.7.
+    # ^ cannot be easily ignored because the unique portion of the message occurs after a colon
+    :
 fi
 
-echo "==> Installing pip for python ${python_version} ..."
+install_pip=("${python[@]}" "${get_pip_tmp}" --disable-pip-version-check)
 
-set -x
-"python${python_version}" --version
-"python${python_version}" "${get_pip}" --disable-pip-version-check -c "${constraints}" 'pip==9.0.2'
-"pip${python_version}" --version --disable-pip-version-check
-set +x
+pip=("${python[@]}" -m pip.__main__ --disable-pip-version-check)
+pip_install=("${pip[@]}" install)
+pip_list=("${pip[@]}" list "--format=columns")
 
-echo "==> Installing requirements for python ${python_version} ..."
+if [[ "${python_version}" = "3.8" ]]; then
+    install_pip+=(--no-warn-script-location)
+    pip_install+=(--no-warn-script-location)
+fi
+
+echo "==> Installing pip ${pip_version} for python ${python_version}"
+
+"${install_pip[@]}" -c "${constraints}" "pip==${pip_version}"
+
+echo "==> Checking full pip version for python ${python_version}"
+
+"${pip[@]}" --version
 
 for requirement in "${version_requirements[@]}"; do
-    set -x
-    "pip${python_version}" install --disable-pip-version-check -c "${constraints}" -r "${requirement}"
-    set +x
+    echo "==> Installing requirements for python ${python_version}: ${requirement}"
+
+    "${pip_install[@]}" -c "${constraints}" -r "${requirement}"
 done
 
-echo "==> Checking for requirements conflicts for ${python_version} ..."
-
-after=$("pip${python_version}" list --disable-pip-version-check --format=columns)
+after=$("${pip_list[@]}")
 
 for requirement in "${version_requirements[@]}"; do
+    echo "==> Checking for requirements conflicts for python ${python_version}: ${requirement}"
+
     before="${after}"
 
-    set -x
-    "pip${python_version}" install --disable-pip-version-check -c "${constraints}" -r "${requirement}"
-    set +x
+    "${pip_install[@]}" -c "${constraints}" -r "${requirement}"
 
-    after=$("pip${python_version}" list --disable-pip-version-check --format=columns)
+    after=$("${pip_list[@]}")
 
-    if [ "${before}" != "${after}" ]; then
+    if [[ "${before}" != "${after}" ]]; then
         echo "==> Conflicts detected in requirements for python ${python_version}: ${requirement}"
         echo ">>> Before"
         echo "${before}"
@@ -89,4 +115,4 @@ for requirement in "${version_requirements[@]}"; do
     fi
 done
 
-echo "==> Finished with requirements for python ${python_version}."
+echo "==> Finished with requirements for python ${python_version}"
