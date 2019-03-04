@@ -26,6 +26,7 @@ RUN apt-get update -y && \
     python3.6-dev \
     python3.7-dev \
     shellcheck \
+    libvirt-dev \
     && \
     apt-get clean
 
