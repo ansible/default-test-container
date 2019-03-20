@@ -8,6 +8,7 @@ RUN apt-get update -y && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     ca-certificates \
     curl \
+    g++ \
     gcc \
     git \
     libbz2-dev \
@@ -19,6 +20,7 @@ RUN apt-get update -y && \
     locales \
     make \
     openssh-client \
+    openssh-server \
     openssl \
     python2.6-dev \
     python2.7-dev \
@@ -28,6 +30,10 @@ RUN apt-get update -y && \
     shellcheck \
     && \
     apt-get clean
+
+RUN ssh-keygen -m PEM -q -t rsa -N '' -f /root/.ssh/id_rsa && \
+    cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys && \
+    for key in /etc/ssh/ssh_host_*_key.pub; do echo "localhost $(cat ${key})" >> /root/.ssh/known_hosts; done
 
 ADD https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer /tmp/pyenv-installer
 RUN bash -c 'PYENV_ROOT=/usr/local/opt/pyenv bash /tmp/pyenv-installer'
