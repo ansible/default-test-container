@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -eu
+set -eu -o pipefail
 
 versions=$(grep '^RUN /tmp/requirements.sh ' Dockerfile | sed 's|^RUN /tmp/requirements.sh ||;')
 

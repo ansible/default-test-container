@@ -74,6 +74,7 @@ install_pip=("${python[@]}" "${get_pip_tmp}" --disable-pip-version-check)
 pip=("${python[@]}" -m pip.__main__ --disable-pip-version-check)
 pip_install=("${pip[@]}" install)
 pip_list=("${pip[@]}" list "--format=columns")
+pip_check=("${pip[@]}" check)
 
 if [[ "${python_version}" = "3.8" ]]; then
     install_pip+=(--no-warn-script-location)
@@ -114,5 +115,9 @@ for requirement in "${version_requirements[@]}"; do
         exit 1
     fi
 done
+
+echo "==> Checking for conflicts between installed packages for python ${python_version}"
+
+"${pip_check[@]}"
 
 echo "==> Finished with requirements for python ${python_version}"
