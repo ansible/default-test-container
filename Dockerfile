@@ -65,7 +65,7 @@ ADD https://packages.microsoft.com/config/ubuntu/16.04/prod.list /etc/apt/source
 RUN curl --silent https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
 RUN apt-get update -y && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-    dotnet-sdk-2.1.4 \
+    dotnet-sdk-2.2 \
     powershell \
     && \
     find /usr/share/dotnet/sdk/NuGetFallbackFolder/ -name '*.xml' -type f -delete \
