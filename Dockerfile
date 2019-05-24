@@ -17,6 +17,7 @@ RUN apt-get update -y && \
     libsqlite3-dev \
     libxml2-dev \
     libxslt1-dev \
+    libyaml-dev \
     locales \
     make \
     openssh-client \

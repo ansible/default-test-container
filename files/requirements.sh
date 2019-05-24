@@ -120,4 +120,8 @@ echo "==> Checking for conflicts between installed packages for python ${python_
 
 "${pip_check[@]}"
 
+echo "==> Checking PyYAML for libyaml support for ${python_version}"
+
+"${python[@]}" -c "from yaml import CLoader" || (>&2 echo "PyYAML was not compiled with libyaml support"; exit 1)
+
 echo "==> Finished with requirements for python ${python_version}"
