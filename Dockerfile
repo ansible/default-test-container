@@ -40,9 +40,7 @@ RUN bash -c 'PYENV_ROOT=/usr/local/opt/pyenv bash /tmp/pyenv-installer'
 COPY files/python* /tmp/
 RUN bash -c 'PYENV_ROOT=/usr/local/opt/pyenv /usr/local/opt/pyenv/bin/pyenv install /tmp/python3.8.0*'
 RUN cp -av /usr/local/opt/pyenv/versions/python3.8.0*/bin/python3.8 /usr/bin/python3.8
-RUN cp -av /usr/local/opt/pyenv/versions/python3.8.0*/bin/python3.8m /usr/bin/python3.8m
 RUN cp -av /usr/local/opt/pyenv/versions/python3.8.0*/bin/python3.8-config /usr/bin/python3.8-config
-RUN cp -av /usr/local/opt/pyenv/versions/python3.8.0*/bin/python3.8m-config /usr/bin/python3.8m-config
 RUN sed 's|^#!.*|#!/usr/bin/python3.8|' /usr/local/opt/pyenv/versions/python3.8.0*/bin/pip3.8 > /usr/local/bin/pip3.8 && chmod +x /usr/local/bin/pip3.8
 
 RUN rm /etc/apt/apt.conf.d/docker-clean
