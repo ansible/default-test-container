@@ -89,6 +89,17 @@ echo "==> Checking full pip version for python ${python_version}"
 
 "${pip[@]}" --version
 
+echo "==> Installing special requirements (if any) for python ${python_version}"
+
+if [[ "${python_version}" = "3.8" ]]; then
+    # work around compatibility issues with python 3.8.0b1
+    "${pip_install[@]}" "cython==0.29.10"
+    # lxml fails to compile, see: https://bugs.launchpad.net/lxml/+bug/1829853
+    "${pip_install[@]}" "https://github.com/lxml/lxml/archive/lxml-4.3.3.tar.gz"
+    # pyyaml support for libyaml fails to compile
+    "${pip_install[@]}" "https://github.com/yaml/pyyaml/archive/5.1.tar.gz"
+fi
+
 for requirement in "${version_requirements[@]}"; do
     echo "==> Installing requirements for python ${python_version}: ${requirement}"
 
