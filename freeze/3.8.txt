@@ -144,7 +144,7 @@ python-string-utils==0.6.0
 pytz==2019.1
 pyvmomi==6.7.1.2018.12
 pywinrm==0.3.0
-PyYAML==5.1
+PyYAML==5.1.1
 redis==3.2.1
 requests==2.22.0
 requests-credssp==1.0.2
