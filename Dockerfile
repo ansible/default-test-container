@@ -1,8 +1,14 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
-COPY files/deadsnakes.list /etc/apt/sources.list.d/deadsnakes.list
+RUN apt-get update -y && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+    gnupg2 \
+    && \
+    apt-get clean
 
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F23C5A6CF475977595C89F51BA6932366A755776
+
+COPY files/deadsnakes.list /etc/apt/sources.list.d/deadsnakes.list
 
 RUN apt-get update -y && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
@@ -49,7 +55,7 @@ RUN locale-gen en_US.UTF-8
 VOLUME /sys/fs/cgroup /run/lock /run /tmp
 
 RUN ln -s python2.7 /usr/bin/python2
-RUN ln -s python3.6 /usr/bin/python3
+RUN ln -s python3.6 /usr/bin/python3 -f
 RUN ln -s python3   /usr/bin/python
 
 # Install dotnet core SDK, pwsh, and other PS/.NET sanity test tools.
@@ -60,7 +66,7 @@ RUN apt-get update -y && \
     apt-transport-https \
     && \
     apt-get clean
-ADD https://packages.microsoft.com/config/ubuntu/16.04/prod.list /etc/apt/sources.list.d/microsoft.list
+ADD https://packages.microsoft.com/config/ubuntu/18.04/prod.list /etc/apt/sources.list.d/microsoft.list
 RUN curl --silent https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
 RUN apt-get update -y && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
