@@ -37,6 +37,7 @@ RUN apt-get update -y && \
     python3.8-dev \
     python3.8-distutils \
     shellcheck \
+    systemd-sysv \
     && \
     apt-get clean
 
