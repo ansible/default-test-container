@@ -8,10 +8,18 @@ import urllib.request
 
 def main():
     """Main program entry point."""
-    source_requirements = 'https://api.github.com/repos/ansible/ansible/contents/test/runner/requirements/'
+    source_requirements = [
+        'https://api.github.com/repos/ansible/ansible/contents/test/sanity/requirements.txt',
+        'https://api.github.com/repos/ansible/ansible/contents/test/lib/ansible_test/_data/requirements/',
+    ]
 
-    with urllib.request.urlopen(source_requirements) as response:
-        files = json.loads(response.read().decode())
+    files = []
+    for url in source_requirements:
+        with urllib.request.urlopen(url) as response:
+            content = json.loads(response.read().decode())
+            if not isinstance(content, list):
+                content = [content]
+            files.extend(content)
 
     requirements_dir = 'requirements'
 
