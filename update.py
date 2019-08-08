@@ -3,6 +3,7 @@
 
 import json
 import os
+import sys
 import urllib.request
 
 
@@ -19,8 +20,9 @@ def main():
     }
 
     files = []
+    untouched_mappings = set()
     for url, mapping in source_requirements.items():
-        untouched_mappings = set(source_requirements[url].keys())
+        untouched_mappings.update(source_requirements[url].keys())
         with urllib.request.urlopen(url) as response:
             content = json.loads(response.read().decode())
             if not isinstance(content, list):
@@ -33,10 +35,6 @@ def main():
                     untouched_mappings.remove(name)
                     i['name'] = mapping.get(name)
 
-            # Warn on any rename mappings that were not used to catch typos in the mapping or files that no longer exist
-            for m in untouched_mappings:
-                print('WARNING: %s specified for renaming but was not found in list of downloaded files' % m)
-
             files.extend(content)
 
     requirements_dir = 'requirements'
@@ -45,11 +43,6 @@ def main():
 
     for file in files:
         name = file['name']
-
-        # # Rename sanity test requirements so they do not conflict with ansible-test sanity requirements
-        # if 'ansible/contents/test/sanity/requirements.txt' in name:
-        #     name = 'ansible-sanity.txt'
-
         download_url = file['download_url']
 
         path = os.path.join(requirements_dir, name)
@@ -79,6 +72,13 @@ def main():
         os.unlink(path)
 
         print('%s: deleted' % path)
+
+    # Warn on any rename mappings that were not used to catch typos in the mapping or files that no longer exist
+    for m in untouched_mappings:
+        print('ERROR: %s specified for renaming but was not found in list of downloaded files' % m)
+
+    if untouched_mappings:
+        sys.exit(1)
 
 
 if __name__ == '__main__':
