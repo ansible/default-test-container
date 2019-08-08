@@ -27,6 +27,11 @@ def main():
 
     for file in files:
         name = file['name']
+
+        # Rename sanity test requirements so they do not conflict with ansible-test sanity requirements
+        if name == 'requirements.txt':
+            name = 'ansible-sanity.txt'
+
         download_url = file['download_url']
 
         path = os.path.join(requirements_dir, name)
