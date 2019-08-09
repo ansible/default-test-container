@@ -20,9 +20,9 @@ def main():
     }
 
     files = []
-    untouched_mappings = set()
+    untouched_mappings = {}
     for url, mapping in source_requirements.items():
-        untouched_mappings.update(source_requirements[url].keys())
+        untouched_mappings[url] = set(mapping)
         with urllib.request.urlopen(url) as response:
             content = json.loads(response.read().decode())
             if not isinstance(content, list):
@@ -32,7 +32,7 @@ def main():
             for i in content:
                 name = i['name']
                 if mapping.get(name):
-                    untouched_mappings.remove(name)
+                    untouched_mappings[url].remove(name)
                     i['name'] = mapping.get(name)
 
             files.extend(content)
@@ -73,11 +73,12 @@ def main():
 
         print('%s: deleted' % path)
 
-    # Warn on any rename mappings that were not used to catch typos in the mapping or files that no longer exist
-    for m in untouched_mappings:
-        print('ERROR: %s specified for renaming but was not found in list of downloaded files' % m)
+    # Error on any rename mappings that were not used to catch typos in the mapping or files that no longer exist
+    for url in untouched_mappings:
+        for m in untouched_mappings[url]:
+            print('ERROR: Unable to rename %s from %s' % (m, url))
 
-    if untouched_mappings:
+    if any(untouched_mappings[url] for url in untouched_mappings):
         sys.exit(1)
 
 
