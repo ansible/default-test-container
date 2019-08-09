@@ -3,15 +3,39 @@
 
 import json
 import os
+import sys
 import urllib.request
 
 
 def main():
     """Main program entry point."""
-    source_requirements = 'https://api.github.com/repos/ansible/ansible/contents/test/runner/requirements/'
 
-    with urllib.request.urlopen(source_requirements) as response:
-        files = json.loads(response.read().decode())
+    # Dictionary of URLs containing a mapping of existing file names to their new file name
+    # Example: 'url': {'current-filename.txt', 'new-filename.txt'}
+    source_requirements = {
+        'https://api.github.com/repos/ansible/ansible/contents/test/sanity/requirements.txt': {
+            'requirements.txt': 'ansible-sanity.txt',
+        },
+        'https://api.github.com/repos/ansible/ansible/contents/test/lib/ansible_test/_data/requirements/': {},
+    }
+
+    files = []
+    untouched_mappings = {}
+    for url, mapping in source_requirements.items():
+        untouched_mappings[url] = set(mapping)
+        with urllib.request.urlopen(url) as response:
+            content = json.loads(response.read().decode())
+            if not isinstance(content, list):
+                content = [content]
+
+            # If we have a rename mapping, rename the file
+            for i in content:
+                name = i['name']
+                if mapping.get(name):
+                    untouched_mappings[url].remove(name)
+                    i['name'] = mapping.get(name)
+
+            files.extend(content)
 
     requirements_dir = 'requirements'
 
@@ -48,6 +72,14 @@ def main():
         os.unlink(path)
 
         print('%s: deleted' % path)
+
+    # Error on any rename mappings that were not used to catch typos in the mapping or files that no longer exist
+    for url in untouched_mappings:
+        for m in untouched_mappings[url]:
+            print('ERROR: Unable to rename %s from %s' % (m, url))
+
+    if any(untouched_mappings[url] for url in untouched_mappings):
+        sys.exit(1)
 
 
 if __name__ == '__main__':
