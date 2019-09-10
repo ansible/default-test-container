@@ -67,7 +67,7 @@ funcsigs==1.0.2
 future==0.17.1
 futures==3.3.0
 google-auth==1.6.3
-hcloud==1.4.0
+hcloud==1.4.1
 httmock==1.3.0
 humanfriendly==4.18
 idna==2.5

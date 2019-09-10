@@ -65,7 +65,7 @@ f5-icontrol-rest==1.3.13
 f5-sdk==3.0.21
 future==0.17.1
 google-auth==1.6.3
-hcloud==1.4.0
+hcloud==1.4.1
 httmock==1.3.0
 humanfriendly==4.18
 idna==2.5
