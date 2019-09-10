@@ -52,7 +52,7 @@ fi
 echo "Using constraints file: ${constraints}"
 
 get_pip_tmp="/tmp/get-pip.py"
-pip_version="19.0.2"
+pip_version="19.2.3"
 
 if [[ "${python_version}" = "2.6" ]]; then
     get_pip_tmp="/tmp/get-pip2.6.py"
