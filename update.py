@@ -16,6 +16,12 @@ def main():
         'https://api.github.com/repos/ansible/ansible/contents/test/sanity/requirements.txt': {
             'requirements.txt': 'ansible-sanity.txt',
         },
+        'https://api.github.com/repos/ansible/ansible/contents/test/units/requirements.txt': {
+            'requirements.txt': 'ansible-units.txt',
+        },
+        'https://api.github.com/repos/ansible/ansible/contents/test/integration/network-integration.requirements.txt': {
+            'network-integration.requirements.txt': 'ansible-network-integration.txt',
+        },
         'https://api.github.com/repos/ansible/ansible/contents/test/lib/ansible_test/_data/requirements/': {},
     }
 
