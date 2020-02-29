@@ -101,10 +101,10 @@ ncclient==0.6.7
 netaddr==0.7.19
 netapp-lib==2019.12.20
 netifaces==0.10.9
-nsx-policy-python-sdk==2.5.1.0.1.15419398
-nsx-python-sdk==2.5.1.0.1.15419398
-nsx-vmc-aws-integration-python-sdk==2.5.1.0.1.15419398
-nsx-vmc-policy-python-sdk==2.5.1.0.1.15419398
+# nsx-policy-python-sdk==2.5.1.0.1.15419398 # package does not exist on PyPI
+# nsx-python-sdk==2.5.1.0.1.15419398 # package does not exist on PyPI
+# nsx-vmc-aws-integration-python-sdk==2.5.1.0.1.15419398 # package does not exist on PyPI
+# nsx-vmc-policy-python-sdk==2.5.1.0.1.15419398 # package does not exist on PyPI
 ntlm-auth==1.4.0
 oauthlib==3.1.0
 openshift==0.8.9
