@@ -174,13 +174,13 @@ tabulate==0.8.2
 tblib==1.6.0
 typing==3.7.4.1
 urllib3==1.24.3
-vapi-client-bindings==3.2.0
-vapi-common-client==2.14.0
-vapi-runtime==2.14.0
+# vapi-client-bindings==3.2.0 # package does not exist on PyPI
+# vapi-common-client==2.14.0 # package does not exist on PyPI
+# vapi-runtime==2.14.0 # package does not exist on PyPI
 virtualenv==20.0.7
-vmc-client-bindings==1.23.0
-vmc-draas-client-bindings==1.3.0
-vSphere-Automation-SDK==1.21.0
+# vmc-client-bindings==1.23.0 # package does not exist on PyPI
+# vmc-draas-client-bindings==1.3.0 # package does not exist on PyPI
+# vSphere-Automation-SDK==1.21.0 # package does not exist on PyPI
 wcwidth==0.1.8
 websocket-client==0.57.0
 wrapt==1.11.1
