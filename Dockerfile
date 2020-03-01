@@ -2,21 +2,12 @@ FROM ubuntu:18.04
 
 RUN apt-get update -y && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-    gnupg2 \
-    && \
-    apt-get clean
-
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F23C5A6CF475977595C89F51BA6932366A755776
-
-COPY files/deadsnakes.list /etc/apt/sources.list.d/deadsnakes.list
-
-RUN apt-get update -y && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     ca-certificates \
     curl \
     g++ \
     gcc \
     git \
+    gnupg2 \
     libbz2-dev \
     libffi-dev \
     libreadline-dev \
@@ -29,15 +20,35 @@ RUN apt-get update -y && \
     openssh-client \
     openssh-server \
     openssl \
-    python2.6-dev \
     python2.7-dev \
-    python3.5-dev \
     python3.6-dev \
+    python3.6-distutils \
+    python3.6-venv \
     python3.7-dev \
+    python3.7-distutils \
+    python3.7-venv \
     python3.8-dev \
     python3.8-distutils \
+    python3.8-venv \
     shellcheck \
     systemd-sysv \
+    && \
+    apt-get clean
+
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F23C5A6CF475977595C89F51BA6932366A755776
+
+COPY files/deadsnakes.list /etc/apt/sources.list.d/deadsnakes.list
+
+# Install Python versions available from the deadsnakes PPA.
+# This is done separately to avoid conflicts with official Ubuntu packages.
+RUN apt-get update -y && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+    python2.6-dev \
+    python3.5-dev \
+    python3.5-venv \
+    python3.9-dev \
+    python3.9-distutils \
+    python3.9-venv \
     && \
     apt-get clean
 
@@ -94,4 +105,5 @@ RUN /tmp/requirements.sh 2.7
 RUN /tmp/requirements.sh 3.5
 RUN /tmp/requirements.sh 3.7
 RUN /tmp/requirements.sh 3.8
+RUN /tmp/requirements.sh 3.9
 RUN /tmp/requirements.sh 3.6
