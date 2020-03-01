@@ -23,6 +23,9 @@ for version in ${versions}; do
     sed \
         -e 's/^solidfire-sdk-python==1.5.0.87$/solidfire-sdk-python==1.5.0.87.post1  # .post1 required for successful install/' \
         -e 's/^\(nsx-.*\)$/# \1 # package does not exist on PyPI/' \
+        -e 's/^\(vapi-.*\)$/# \1 # package does not exist on PyPI/' \
+        -e 's/^\(vmc-.*\)$/# \1 # package does not exist on PyPI/' \
+        -e 's/^\(vSphere-Automation-SDK.*\)$/# \1 # package does not exist on PyPI/' \
         < "freeze/${version}.txt" > /tmp/freeze.txt
     mv /tmp/freeze.txt "freeze/${version}.txt"
 done
