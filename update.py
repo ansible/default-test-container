@@ -13,15 +13,6 @@ def main():
     # Dictionary of URLs containing a mapping of existing file names to their new file name
     # Example: 'url': {'current-filename.txt', 'new-filename.txt'}
     source_requirements = {
-        'https://api.github.com/repos/ansible/ansible/contents/test/sanity/requirements.txt': {
-            'requirements.txt': 'ansible-sanity.txt',
-        },
-        'https://api.github.com/repos/ansible/ansible/contents/test/units/requirements.txt': {
-            'requirements.txt': 'ansible-units.txt',
-        },
-        'https://api.github.com/repos/ansible/ansible/contents/test/integration/network-integration.requirements.txt': {
-            'network-integration.requirements.txt': 'ansible-network-integration.txt',
-        },
         'https://api.github.com/repos/ansible/ansible/contents/test/lib/ansible_test/_data/requirements/': {},
     }
 
@@ -34,12 +25,23 @@ def main():
             if not isinstance(content, list):
                 content = [content]
 
+            purge = []
+
             # If we have a rename mapping, rename the file
             for i in content:
                 name = i['name']
+
+                # skip "cloud" requirements files
+                if name.startswith('integration.cloud.'):
+                    purge.append(i)
+                    continue
+
                 if mapping.get(name):
                     untouched_mappings[url].remove(name)
                     i['name'] = mapping.get(name)
+
+            for item in purge:
+                content.remove(item)
 
             files.extend(content)
 

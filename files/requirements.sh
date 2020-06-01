@@ -69,9 +69,9 @@ elif [[ "${python_version}" = "2.7" ]]; then
     :
 fi
 
-install_pip=("${python[@]}" "${get_pip_tmp}" --disable-pip-version-check)
+install_pip=("${python[@]}" "${get_pip_tmp}" --disable-pip-version-check --no-cache-dir)
 
-pip=("${python[@]}" -m pip.__main__ --disable-pip-version-check)
+pip=("${python[@]}" -m pip.__main__ --disable-pip-version-check --no-cache-dir)
 pip_install=("${pip[@]}" install)
 pip_list=("${pip[@]}" list "--format=columns")
 pip_check=("${pip[@]}" check)
