@@ -35,7 +35,8 @@ RUN apt-get update -y && \
     && \
     apt-get clean
 
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F23C5A6CF475977595C89F51BA6932366A755776
+# podman build fails with 'apt-key adv ...' but this works for both
+RUN curl -sL "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xF23C5A6CF475977595C89F51BA6932366A755776" | apt-key add
 
 COPY files/deadsnakes.list /etc/apt/sources.list.d/deadsnakes.list
 
@@ -64,28 +65,18 @@ RUN ln -s python2.7 /usr/bin/python2
 RUN ln -s python3.6 /usr/bin/python3 -f
 RUN ln -s python3   /usr/bin/python
 
-# Install dotnet core SDK, pwsh, and other PS/.NET sanity test tools.
-# For now, we need to manually purge XML docs and other items from a Nuget dir to vastly reduce the image size.
-# See https://github.com/dotnet/dotnet-docker/issues/237 for details.
+# Install pwsh, and other PS/.NET sanity test tools.
 RUN apt-get update -y && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-    apt-transport-https \
+    curl --silent --location https://github.com/PowerShell/PowerShell/releases/download/v7.0.1/powershell_7.0.1-1.ubuntu.18.04_amd64.deb -o /tmp/pwsh.deb \
+    && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends /tmp/pwsh.deb \
+    && \
+    rm /tmp/pwsh.deb \
     && \
     apt-get clean
-ADD https://packages.microsoft.com/config/ubuntu/18.04/prod.list /etc/apt/sources.list.d/microsoft.list
-RUN curl --silent https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
-RUN apt-get update -y && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-    dotnet-sdk-2.2 \
-    powershell \
-    && \
-    find /usr/share/dotnet/sdk/NuGetFallbackFolder/ -name '*.xml' -type f -delete \
-    && \
-    apt-get clean
-RUN dotnet --version
 RUN pwsh --version
 COPY requirements/sanity.ps1 /tmp/
-RUN /tmp/sanity.ps1
+RUN /tmp/sanity.ps1 && rm /tmp/sanity.ps1
 
 ENV container=docker
 CMD ["/sbin/init"]
