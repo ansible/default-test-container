@@ -36,6 +36,11 @@ else
     done
 
     for requirement in "${requirements[@]}"; do
+        # except for the import sanity test, no sanity test with requirements supports python 2.x
+        if [[ "${python_version}" =~ ^2\. ]] && [[ "${requirement}" =~ ^sanity\. ]] && [[ "${requirement}" != "sanity.import.txt" ]]; then
+           continue
+        fi
+
         case "${python_version}" in
             "2.6")
                 case "${requirement}" in
