@@ -41,15 +41,6 @@ else
            continue
         fi
 
-        case "${python_version}" in
-            "2.6")
-                case "${requirement}" in
-                    "integration.cloud.azure.txt") continue ;;
-                    "integration.cloud.nios.txt") continue ;;
-                    "integration.cloud.openshift.txt") continue ;;
-                esac
-        esac
-
         version_requirements+=("${requirement}")
     done
 fi
