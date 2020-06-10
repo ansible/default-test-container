@@ -76,7 +76,7 @@ RUN apt-get update -y && \
     apt-get clean
 RUN pwsh --version
 COPY requirements/sanity.ps1 /tmp/
-RUN /tmp/sanity.ps1 && rm /tmp/sanity.ps1
+RUN /tmp/sanity.ps1 -IsContainer && rm /tmp/sanity.ps1
 
 ENV container=docker
 CMD ["/sbin/init"]
