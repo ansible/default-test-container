@@ -36,14 +36,10 @@ else
     done
 
     for requirement in "${requirements[@]}"; do
-        case "${python_version}" in
-            "2.6")
-                case "${requirement}" in
-                    "integration.cloud.azure.txt") continue ;;
-                    "integration.cloud.nios.txt") continue ;;
-                    "integration.cloud.openshift.txt") continue ;;
-                esac
-        esac
+        # except for the import sanity test, no sanity test with requirements supports python 2.x
+        if [[ "${python_version}" =~ ^2\. ]] && [[ "${requirement}" =~ ^sanity\. ]] && [[ "${requirement}" != "sanity.import.txt" ]]; then
+           continue
+        fi
 
         version_requirements+=("${requirement}")
     done
