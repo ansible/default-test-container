@@ -1,5 +1,8 @@
 FROM ubuntu:18.04
 
+# increment the number in this file to force a full container rebuild
+COPY files/update.txt /tmp/update.txt
+
 RUN apt-get update -y && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     ca-certificates \
