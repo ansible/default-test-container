@@ -1,2 +1,2 @@
 # default-test-container
-Container used by ansible-test for distribution independent tests.
+Container used by ansible-test for distribution independent tests of collections.
