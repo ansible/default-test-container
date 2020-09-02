@@ -1,0 +1,14 @@
+trigger:
+  - master
+
+pr:
+  - master
+
+pool:
+  vmImage: 'ubuntu-18.04'
+
+steps:
+  - script: docker build -t default-test-container .
+    displayName: Build Container
+  - script: docker history default-test-container
+    displayName: Show History
