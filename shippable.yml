@@ -1,6 +1,0 @@
-language: python
-
-build:
-  ci:
-    - docker build -t default-test-container .
-    - docker history  default-test-container
