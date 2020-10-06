@@ -36,7 +36,8 @@ RUN apt-get update -y && \
     shellcheck \
     systemd-sysv \
     && \
-    apt-get clean
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # podman build fails with 'apt-key adv ...' but this works for both
 RUN curl -sL "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xF23C5A6CF475977595C89F51BA6932366A755776" | apt-key add
