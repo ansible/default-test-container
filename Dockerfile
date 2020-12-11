@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM quay.io/bedrock/ubuntu:bionic-20201119
 
 # increment the number in this file to force a full container rebuild
 COPY files/update.txt /tmp/update.txt
