@@ -47,11 +47,9 @@ fi
 
 echo "Using constraints file: ${constraints}"
 
-get_pip_tmp="/tmp/get-pip.py"
-pip_version="19.2.3"
+pip_version="20.3.4"
 
 if [[ "${python_version}" = "2.6" ]]; then
-    get_pip_tmp="/tmp/get-pip2.6.py"
     pip_version="9.0.3"
     # DEPRECATION: Python 2.6 is no longer supported by the Python core team, please upgrade your Python. A future version of pip will drop support for Python 2.6
     python+=(-W 'ignore:Python 2.6 is no longer supported ')
@@ -64,6 +62,8 @@ elif [[ "${python_version}" = "2.7" ]]; then
     # ^ cannot be easily ignored because the unique portion of the message occurs after a colon
     :
 fi
+
+get_pip_tmp="/tmp/get-pip-${pip_version}.py"
 
 install_pip=("${python[@]}" "${get_pip_tmp}" --disable-pip-version-check --no-cache-dir)
 

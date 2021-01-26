@@ -87,8 +87,8 @@ CMD ["/sbin/init"]
 
 # Install pip and requirements last to speed up local container rebuilds when updating requirements.
 
-ADD https://bootstrap.pypa.io/get-pip.py /tmp/get-pip.py
-ADD https://bootstrap.pypa.io/2.6/get-pip.py /tmp/get-pip2.6.py
+ADD https://ansible-ci-files.s3.amazonaws.com/ansible-test/get-pip-9.0.3.py /tmp/get-pip-9.0.3.py
+ADD https://ansible-ci-files.s3.amazonaws.com/ansible-test/get-pip-20.3.4.py /tmp/get-pip-20.3.4.py
 
 COPY files/requirements.sh /tmp/
 COPY files/early-requirements.txt /tmp/
