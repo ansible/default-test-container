@@ -58,9 +58,13 @@ if [[ "${python_version}" = "2.6" ]]; then
     # /tmp/{random}/pip.zip/pip/_vendor/urllib3/util/ssl_.py:137: InsecurePlatformWarning: A true SSLContext object is not available. This prevents urllib3 from configuring SSL appropriately and may cause certain SSL connections to fail. You can upgrade to a newer version of Python to solve this. For more information, see https://urllib3.readthedocs.io/en/latest/advanced-usage.html#ssl-warnings
     python+=(-W 'ignore:A true SSLContext ')
 elif [[ "${python_version}" = "2.7" ]]; then
-    # DEPRECATION: Python 2.7 will reach the end of its life on January 1st, 2020. Please upgrade your Python as Python 2.7 won't be maintained after that date. A future version of pip will drop support for Python 2.7.
-    # ^ cannot be easily ignored because the unique portion of the message occurs after a colon
-    :
+    pip_version="20.3.4"
+    # DEPRECATION: Python 2.7 reached the end of its life on January 1st, 2020. Please upgrade your Python as Python 2.7 is no longer maintained. pip 21.0 will drop support for Python 2.7 in January 2021. More details about Python 2 support in pip can be found at https://pip.pypa.io/en/latest/development/release-process/#python-2-support pip 21.0 will remove support for this functionality.
+    python+=(-W 'ignore:DEPRECATION')
+elif [[ "${python_version}" = "3.5" ]]; then
+    pip_version="20.3.4"
+    # DEPRECATION: Python 3.5 reached the end of its life on September 13th, 2020. Please upgrade your Python as Python 3.5 is no longer maintained. pip 21.0 will drop support for Python 3.5 in January 2021. pip 21.0 will remove support for this functionality.
+    python+=(-W 'ignore:DEPRECATION')
 fi
 
 get_pip_tmp="/tmp/get-pip-${pip_version}.py"
