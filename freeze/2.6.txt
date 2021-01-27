@@ -1,9 +1,9 @@
 apipkg==1.4
 argparse==1.4.0
-asn1crypto==1.3.0
+asn1crypto==1.4.0
 bcrypt==3.1.4
-certifi==2020.4.5.2
-cffi==1.14.0
+certifi==2020.12.5
+cffi==1.14.4
 chardet==3.0.4
 coverage==4.5.4
 cryptography==2.1.4
@@ -21,7 +21,7 @@ ntlm-auth==1.5.0
 ordereddict==1.1
 packaging==16.8
 paramiko==2.3.3
-pbr==5.4.5
+pbr==5.5.1
 py==1.4.34
 pyasn1==0.4.8
 pycparser==2.18
