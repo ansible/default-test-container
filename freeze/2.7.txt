@@ -13,7 +13,7 @@ coverage==4.5.4
 cryptography==3.3.1
 distlib==0.3.1
 enum34==1.1.10
-execnet==1.7.1
+execnet==1.8.0
 filelock==3.0.12
 funcsigs==1.0.2
 idna==2.5
@@ -47,6 +47,7 @@ PyYAML==5.4.1
 requests==2.25.1
 requests-credssp==1.2.0
 requests-ntlm==1.1.0
+resolvelib==0.5.4
 scandir==1.10.0
 singledispatch==3.4.0.3
 six==1.15.0

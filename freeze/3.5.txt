@@ -7,8 +7,7 @@ cffi==1.14.4
 chardet==4.0.0
 coverage==4.5.4
 cryptography==3.2.1
-docutils==0.16
-execnet==1.7.1
+execnet==1.8.0
 idna==2.5
 importlib-metadata==2.1.1
 iniconfig==1.1.1
@@ -44,7 +43,7 @@ PyYAML==5.3.1
 requests==2.25.1
 requests-credssp==1.2.0
 requests-ntlm==1.1.0
-rstcheck==3.3.1
+resolvelib==0.5.4
 six==1.15.0
 toml==0.10.2
 typed-ast==1.4.1

@@ -9,7 +9,7 @@ chardet==4.0.0
 coverage==4.5.4
 cryptography==3.3.1
 docutils==0.16
-execnet==1.7.1
+execnet==1.8.0
 idna==2.5
 importlib-metadata==3.4.0
 iniconfig==1.1.1
@@ -44,6 +44,7 @@ PyYAML==5.4.1
 requests==2.25.1
 requests-credssp==1.2.0
 requests-ntlm==1.1.0
+resolvelib==0.5.4
 rstcheck==3.3.1
 semantic-version==2.8.5
 six==1.15.0
