@@ -61,6 +61,18 @@ def main():
         with urllib.request.urlopen(download_url) as response:
             latest_contents = response.read().decode()
 
+        if name == 'constraints.txt':
+            original = latest_contents.splitlines()
+            updated = []
+
+            for line in original:
+                updated.append(line)
+
+                if line.startswith("cryptography < 2.2 ; python_version < '2.7' "):
+                    updated.append("cryptography < 3.4 ; python_version >= '2.7' # limit cryptography to the latest version ansible-test will accept")
+
+            latest_contents = '\n'.join(updated) + '\n'
+
         if os.path.exists(path):
             with open(path, 'r') as contents_fd:
                 current_contents = contents_fd.read()
