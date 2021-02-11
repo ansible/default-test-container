@@ -36,9 +36,11 @@ else
     done
 
     for requirement in "${requirements[@]}"; do
-        # except for the import sanity test, no sanity test with requirements supports python 2.x
-        if [[ "${python_version}" =~ ^2\. ]] && [[ "${requirement}" =~ ^sanity\. ]] && [[ "${requirement}" != "sanity.import.txt" ]]; then
-           continue
+        # except for the import sanity test, all sanity tests require python 3.6+
+        if [[ "${requirement}" =~ ^sanity\. ]] && [[ "${requirement}" != "sanity.import.txt" ]]; then
+            if [[ "${python_version}" =~ ^2\. ]] || [[ "${python_version}" == "3.5" ]]; then
+               continue
+            fi
         fi
 
         version_requirements+=("${requirement}")
