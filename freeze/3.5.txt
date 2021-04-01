@@ -39,6 +39,6 @@ requests-ntlm==1.1.0
 resolvelib==0.5.4
 six==1.15.0
 toml==0.10.2
-urllib3==1.26.3
+urllib3==1.26.4
 xmltodict==0.12.0
 zipp==1.2.0
