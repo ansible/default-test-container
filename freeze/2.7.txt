@@ -2,7 +2,7 @@ apipkg==1.5
 appdirs==1.4.4
 atomicwrites==1.4.0
 attrs==20.3.0
-backports.functools-lru-cache==1.6.1
+backports.functools-lru-cache==1.6.3
 bcrypt==3.1.7
 certifi==2020.12.5
 cffi==1.14.5
@@ -49,11 +49,11 @@ requests-credssp==1.2.0
 requests-ntlm==1.1.0
 resolvelib==0.5.4
 scandir==1.10.0
-singledispatch==3.4.0.3
+singledispatch==3.6.1
 six==1.15.0
 typing==3.7.4.3
-urllib3==1.26.3
-virtualenv==20.4.2
+urllib3==1.26.4
+virtualenv==20.4.3
 wcwidth==0.2.5
 xmltodict==0.12.0
 zipp==1.2.0

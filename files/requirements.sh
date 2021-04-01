@@ -49,7 +49,7 @@ fi
 
 echo "Using constraints file: ${constraints}"
 
-pip_version="20.3.4"
+pip_version="21.0.1"
 
 if [[ "${python_version}" = "2.6" ]]; then
     pip_version="9.0.3"
@@ -77,6 +77,11 @@ pip=("${python[@]}" -m pip.__main__ --disable-pip-version-check --no-cache-dir)
 pip_install=("${pip[@]}" install)
 pip_list=("${pip[@]}" list "--format=columns")
 pip_check=("${pip[@]}" check)
+
+if [[ "${python_version}" = "2.6" ]]; then
+    install_pip+=(--index https://d2c8fqinjk13kw.cloudfront.net/simple/)
+    pip_install+=(--index https://d2c8fqinjk13kw.cloudfront.net/simple/)
+fi
 
 if [[ "${python_version}" = "3.8" ]]; then
     install_pip+=(--no-warn-script-location)

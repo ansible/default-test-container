@@ -85,6 +85,7 @@ CMD ["/sbin/init"]
 
 ADD https://ansible-ci-files.s3.amazonaws.com/ansible-test/get-pip-9.0.3.py /tmp/get-pip-9.0.3.py
 ADD https://ansible-ci-files.s3.amazonaws.com/ansible-test/get-pip-20.3.4.py /tmp/get-pip-20.3.4.py
+ADD https://ansible-ci-files.s3.amazonaws.com/ansible-test/get-pip-21.0.1.py /tmp/get-pip-21.0.1.py
 
 COPY files/requirements.sh /tmp/
 COPY files/early-requirements.txt /tmp/
