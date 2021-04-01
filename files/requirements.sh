@@ -78,6 +78,11 @@ pip_install=("${pip[@]}" install)
 pip_list=("${pip[@]}" list "--format=columns")
 pip_check=("${pip[@]}" check)
 
+if [[ "${python_version}" = "2.6" ]]; then
+    install_pip+=(--index https://d2c8fqinjk13kw.cloudfront.net/simple/)
+    pip_install+=(--index https://d2c8fqinjk13kw.cloudfront.net/simple/)
+fi
+
 if [[ "${python_version}" = "3.8" ]]; then
     install_pip+=(--no-warn-script-location)
     pip_install+=(--no-warn-script-location)
