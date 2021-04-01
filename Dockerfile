@@ -87,6 +87,7 @@ ADD https://ansible-ci-files.s3.amazonaws.com/ansible-test/get-pip-9.0.3.py /tmp
 ADD https://ansible-ci-files.s3.amazonaws.com/ansible-test/get-pip-20.3.4.py /tmp/get-pip-20.3.4.py
 ADD https://ansible-ci-files.s3.amazonaws.com/ansible-test/get-pip-21.0.1.py /tmp/get-pip-21.0.1.py
 
+COPY files/pydistutils.cfg /tmp/
 COPY files/requirements.sh /tmp/
 COPY files/early-requirements.txt /tmp/
 COPY requirements/*.txt /tmp/requirements/

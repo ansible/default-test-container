@@ -81,6 +81,7 @@ pip_check=("${pip[@]}" check)
 if [[ "${python_version}" = "2.6" ]]; then
     install_pip+=(--index https://d2c8fqinjk13kw.cloudfront.net/simple/)
     pip_install+=(--index https://d2c8fqinjk13kw.cloudfront.net/simple/)
+    cp /tmp/pydistutils.cfg ~/.pydistutils.cfg
 fi
 
 if [[ "${python_version}" = "3.8" ]]; then
@@ -132,3 +133,5 @@ echo "==> Checking PyYAML for libyaml support for ${python_version}"
 "${python[@]}" -c "from yaml import CLoader" || (>&2 echo "PyYAML was not compiled with libyaml support"; exit 1)
 
 echo "==> Finished with requirements for python ${python_version}"
+
+rm -f ~/.pydistutils.cfg
