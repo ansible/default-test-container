@@ -49,7 +49,7 @@ fi
 
 echo "Using constraints file: ${constraints}"
 
-pip_version="20.3.4"
+pip_version="21.0.1"
 
 if [[ "${python_version}" = "2.6" ]]; then
     pip_version="9.0.3"
