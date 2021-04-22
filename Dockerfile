@@ -62,7 +62,7 @@ RUN locale-gen en_US.UTF-8
 VOLUME /sys/fs/cgroup /run/lock /run /tmp
 
 RUN ln -s python2.7 /usr/bin/python2
-RUN ln -s python3.6 /usr/bin/python3 -f
+RUN ln -s python3.9 /usr/bin/python3 -f
 RUN ln -s python3   /usr/bin/python
 
 # Install pwsh, and other PS/.NET sanity test tools.
@@ -96,7 +96,7 @@ COPY freeze/*.txt /tmp/freeze/
 RUN /tmp/requirements.sh 2.6
 RUN /tmp/requirements.sh 2.7
 RUN /tmp/requirements.sh 3.5
+RUN /tmp/requirements.sh 3.6
 RUN /tmp/requirements.sh 3.7
 RUN /tmp/requirements.sh 3.8
 RUN /tmp/requirements.sh 3.9
-RUN /tmp/requirements.sh 3.6
