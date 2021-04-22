@@ -36,9 +36,9 @@ else
     done
 
     for requirement in "${requirements[@]}"; do
-        # except for the import sanity test, all sanity tests require python 3.6+
+        # all sanity tests run using the default python, except for the import sanity test, which runs on all versions
         if [[ "${requirement}" =~ ^sanity\. ]] && [[ "${requirement}" != "sanity.import.txt" ]]; then
-            if [[ "${python_version}" =~ ^2\. ]] || [[ "${python_version}" == "3.5" ]]; then
+            if [[ "${python_version}" != '3.9' ]]; then
                continue
             fi
         fi
