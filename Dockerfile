@@ -95,7 +95,7 @@ COPY freeze/*.txt /tmp/freeze/
 RUN /tmp/requirements.sh 2.6
 RUN /tmp/requirements.sh 2.7
 RUN /tmp/requirements.sh 3.5
-RUN /tmp/requirements.sh 3.6
 RUN /tmp/requirements.sh 3.7
 RUN /tmp/requirements.sh 3.8
 RUN /tmp/requirements.sh 3.9
+RUN /tmp/requirements.sh 3.6
