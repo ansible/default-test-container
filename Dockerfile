@@ -54,6 +54,9 @@ RUN apt-get update -y && \
     python3.9-dev \
     python3.9-distutils \
     python3.9-venv \
+    python3.10-dev \
+    python3.10-distutils \
+    python3.10-venv \
     && \
     apt-get clean
 
@@ -98,4 +101,5 @@ RUN /tmp/requirements.sh 3.5
 RUN /tmp/requirements.sh 3.7
 RUN /tmp/requirements.sh 3.8
 RUN /tmp/requirements.sh 3.9
+RUN /tmp/requirements.sh 3.10
 RUN /tmp/requirements.sh 3.6
