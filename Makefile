@@ -1,10 +1,11 @@
-.PHONY: build update freeze
-
+.PHONY: build
 build:
 	docker build -t default-test-container .
 
+.PHONY: update
 update:
 	./update.py
 
+.PHONY: freeze
 freeze:
-	./freeze.sh
+	./freeze.py default-test-container-freezer

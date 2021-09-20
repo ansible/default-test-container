@@ -1,1 +1,0 @@
-pycparser  # required to install PyNaCl on Python 2.6

@@ -1,0 +1,2 @@
+virtualenv < 20 ; python_version < '3'  # minimize dependencies, ansible-test does not limit this
+coverage == 4.5.4  # match ansible-test COVERAGE_REQUIRED_VERSION
