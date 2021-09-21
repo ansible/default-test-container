@@ -72,26 +72,27 @@ def setup_python(python: Python, source_directory: str, final: bool) -> None:
         display.section(f'Installing requirements for Python {python.version} ({requirements})')
         pip.install(['-r', os.path.join(source_directory, requirements), '-c', os.path.join(source_directory, constraints)])
 
-    display.section(f'Checking for requirements conflicts for Python {python.version}')
-    expected = pip.list()
+    if len(requirements_list) > 1:
+        display.section(f'Checking for requirements conflicts for Python {python.version}')
+        expected = pip.list()
 
-    for requirements in requirements_list:
-        pip.install(['-r', os.path.join(source_directory, requirements), '-c', os.path.join(source_directory, constraints)])
-        actual = pip.list()
+        for requirements in requirements_list:
+            pip.install(['-r', os.path.join(source_directory, requirements), '-c', os.path.join(source_directory, constraints)])
+            actual = pip.list()
 
-        if expected != actual:
-            display.error(f'Conflicts detected in requirements for Python {python.version} ({requirements})')
-            display.error('>>> Expected')
+            if expected != actual:
+                display.error(f'Conflicts detected in requirements for Python {python.version} ({requirements})')
+                display.error('>>> Expected')
 
-            for name, version in expected:
-                display.error(f'{name} {version}')
+                for name, version in expected:
+                    display.error(f'{name} {version}')
 
-            display.error('>>> Actual')
+                display.error('>>> Actual')
 
-            for name, version in actual:
-                display.error(f'{name} {version}')
+                for name, version in actual:
+                    display.error(f'{name} {version}')
 
-            sys.exit(1)
+                sys.exit(1)
 
     display.section(f'Checking pip integrity for Python {python.version}')
     pip.check()
