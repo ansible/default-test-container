@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import argparse
 import json
 import os
 import urllib.request
@@ -10,8 +11,20 @@ import urllib.request
 
 def main() -> None:
     """Main program entry point."""
-    with open('files/ansible-test-ref.txt') as file:
-        ref = file.read().strip()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--ref')
+
+    args = parser.parse_args()
+    ref = args.ref
+
+    if not ref:
+        with urllib.request.urlopen(f'https://api.github.com/repos/ansible/ansible/branches/devel') as response:
+            data = json.load(response)
+
+        ref = data['commit']['sha']
+
+    with open('files/ansible-test-ref.txt', 'w') as file:
+        file.write(f'{ref}\n')
 
     with urllib.request.urlopen(f'https://api.github.com/repos/ansible/ansible/contents/test/lib/ansible_test/_data/requirements/?ref={ref}') as response:
         files = json.loads(response.read().decode())
