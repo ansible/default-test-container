@@ -1,4 +1,4 @@
-FROM quay.io/ansible/base-test-container:1.1.0
+FROM quay.io/ansible/base-test-container:2.0.0
 
 # increment the number in this file to force a full container rebuild
 COPY files/update.txt /dev/null
@@ -13,4 +13,4 @@ RUN python3.10 /usr/share/container-setup/requirements.py default
 
 COPY files/ansible-test-ref.txt /usr/share/container-setup/
 COPY files/prime.py /usr/share/container-setup/
-RUN python3.9 /usr/share/container-setup/prime.py default
+RUN python3.10 /usr/share/container-setup/prime.py default
