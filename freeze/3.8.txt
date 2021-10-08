@@ -3,11 +3,11 @@ certifi==2021.5.30
 cffi==1.14.6
 charset-normalizer==2.0.6
 coverage==4.5.4
-cryptography==3.4.8
+cryptography==35.0.0
 execnet==1.9.0
-idna==2.5
+idna==3.2
 iniconfig==1.1.1
-Jinja2==3.0.1
+Jinja2==3.0.2
 MarkupSafe==2.0.1
 mock==4.0.3
 ntlm-auth==1.5.0
@@ -16,7 +16,7 @@ pluggy==1.0.0
 py==1.10.0
 pyasn1==0.4.8
 pycparser==2.20
-pyOpenSSL==20.0.1
+pyOpenSSL==21.0.0
 pyparsing==2.4.7
 pypsrp==0.5.0
 pyspnego==0.2.0
