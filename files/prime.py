@@ -8,6 +8,7 @@ import subprocess
 import sys
 
 from installer import (
+    Pip,
     display,
 )
 
@@ -52,9 +53,10 @@ def setup_sanity_venvs(context: str) -> None:
         with open(os.path.join(working_directory, 'placeholder.txt'), 'w'):
             pass
 
-        display.section('Priming Sanity Virtual Environments (import 2.6 with coverage)')
-        import26 = ['--python', '2.6', '--test', 'import', '--coverage', '--pypi-proxy', '--pypi-endpoint', 'https://d2c8fqinjk13kw.cloudfront.net/simple/']
-        subprocess.run(prime + import26, cwd=working_directory, check=True, stderr=subprocess.STDOUT)
+        for version in Pip.PIP_PROXY_VERSIONS:
+            display.section(f'Priming Sanity Virtual Environments (import {version} with coverage)')
+            import_cmd = ['--python', version, '--test', 'import', '--coverage', '--pypi-proxy', '--pypi-endpoint', Pip.PIP_INDEX]
+            subprocess.run(prime + import_cmd, cwd=working_directory, check=True, stderr=subprocess.STDOUT)
 
     display.section('Priming Sanity Virtual Environments (without coverage)')
     subprocess.run(prime, cwd=working_directory, check=True, stderr=subprocess.STDOUT)
