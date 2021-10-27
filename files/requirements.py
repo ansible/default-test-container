@@ -58,7 +58,7 @@ def setup_python(python: Python, source_directory: str, final: bool) -> None:
         for filename in sorted(os.listdir(source_directory)):
             name, ext = os.path.splitext(filename)
 
-            if ext != '.txt' or name == 'constraints' or name.startswith('sanity.'):
+            if ext != '.txt' or name == 'constraints':
                 continue
 
             if not filename.startswith('common.') and not filename.startswith('units.') and str_to_version(python.version) < (3, 8):
