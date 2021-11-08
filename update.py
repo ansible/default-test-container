@@ -18,7 +18,7 @@ def main() -> None:
     ref = args.ref
 
     if not ref:
-        with urllib.request.urlopen(f'https://api.github.com/repos/ansible/ansible/branches/devel') as response:
+        with urllib.request.urlopen(f'https://api.github.com/repos/ansible/ansible/branches/stable-2.12') as response:
             data = json.load(response)
 
         ref = data['commit']['sha']
