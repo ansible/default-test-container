@@ -26,7 +26,7 @@ def main() -> None:
     with open('files/ansible-test-ref.txt', 'w') as file:
         file.write(f'{ref}\n')
 
-    with urllib.request.urlopen(f'https://api.github.com/repos/ansible/ansible/contents/test/lib/ansible_test/_data/requirements/?ref={ref}') as response:
+    with urllib.request.urlopen(f'https://api.github.com/repos/ansible/ansible/contents/test/lib/ansible_test/_data/requirements?ref={ref}') as response:
         files = json.loads(response.read().decode())
 
     requirements_dir = 'requirements'
