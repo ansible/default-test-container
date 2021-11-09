@@ -9,6 +9,7 @@ import sys
 
 from installer import (
     display,
+    get_default_python,
 )
 
 
@@ -51,6 +52,16 @@ def setup_sanity_venvs(context: str) -> None:
 
         with open(os.path.join(working_directory, 'placeholder.txt'), 'w'):
             pass
+
+        # The 'sanity.import' environment is needed for all collection import sanity tests.
+        # However, since the PyPI proxy endpoint is static, it may not have the required packages.
+        # First install the 'sanity.import' requirements using the default Python version.
+
+        version = get_default_python().version
+
+        display.section(f'Priming Sanity Virtual Environments (import {version})')
+        import_cmd = ['--python', version, '--test', 'import']
+        subprocess.run(prime + import_cmd, cwd=working_directory, check=True, stderr=subprocess.STDOUT)
 
         display.section('Priming Sanity Virtual Environments (import 2.6 with coverage)')
         import26 = ['--python', '2.6', '--test', 'import', '--coverage', '--pypi-proxy', '--pypi-endpoint', 'https://d2c8fqinjk13kw.cloudfront.net/simple/']
