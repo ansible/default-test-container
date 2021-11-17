@@ -36,7 +36,7 @@ def main() -> None:
         name = file['name']
         download_url = file['download_url']
 
-        if name.startswith('sanity.') and name.endswith('.txt'):
+        if name.startswith('sanity.') and (name.endswith('.txt') or name.endswith('.in')):
             continue  # sanity test requirements are installed by ansible-test's --prime-venvs option
 
         path = os.path.join(requirements_dir, name)
