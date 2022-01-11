@@ -1,4 +1,4 @@
-attrs==21.2.0
+attrs==21.4.0
 coverage==4.5.4
 execnet==1.9.0
 importlib-metadata==2.1.2
