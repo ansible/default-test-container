@@ -1,7 +1,7 @@
 attrs==21.4.0
 certifi==2021.10.8
 cffi==1.15.0
-charset-normalizer==2.0.10
+charset-normalizer==2.0.11
 coverage==4.5.4
 cryptography==36.0.1
 execnet==1.9.0
@@ -16,13 +16,13 @@ pluggy==1.0.0
 py==1.11.0
 pyasn1==0.4.8
 pycparser==2.21
-pyOpenSSL==21.0.0
-pyparsing==3.0.6
-pypsrp==0.7.0
+pyOpenSSL==22.0.0
+pyparsing==3.0.7
+pypsrp==0.8.0
 pyspnego==0.3.1
 pytest==6.2.5
 pytest-forked==1.4.0
-pytest-mock==3.6.1
+pytest-mock==3.7.0
 pytest-xdist==2.5.0
 pywinrm==0.4.2
 PyYAML==6.0
