@@ -1,8 +1,8 @@
 trigger:
-  - master
+  - stable-2.12
 
 pr:
-  - master
+  - stable-2.12
 
 pool:
   vmImage: 'ubuntu-18.04'
