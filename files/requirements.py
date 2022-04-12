@@ -103,7 +103,9 @@ def setup_python(python: Python, source_directory: str, final: bool) -> None:
 
     if result.returncode:
         display.error('PyYAML was not compiled with libyaml support.')
-        sys.exit(1)
+
+        if python.version != '3.11':  # temporary hack until libyaml is working
+            sys.exit(1)
 
     display.section(f'Listing installed packages for Python {python.version}')
 
