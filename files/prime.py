@@ -37,13 +37,16 @@ def setup_sanity_venvs(context: str) -> None:
     working_directory = clone_directory
     repo = 'https://github.com/ansible/ansible'
 
+    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'ansible-test-branch.txt')) as file:
+        branch = file.read().strip()
+
     with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'ansible-test-ref.txt')) as file:
         ref = file.read().strip()
 
     # NOTE: Redirection of stderr to stdout below prevents Docker from making stderr output red.
 
     display.section('Cloning Ansible')
-    subprocess.run(['git', 'clone', '--depth', '500', '--branch', 'devel', repo, clone_directory], check=True, stderr=subprocess.STDOUT)
+    subprocess.run(['git', 'clone', '--depth', '500', '--branch', branch, repo, clone_directory], check=True, stderr=subprocess.STDOUT)
     subprocess.run(['git', 'reset', '--hard', ref], cwd=clone_directory, check=True)
 
     if context == 'default':
