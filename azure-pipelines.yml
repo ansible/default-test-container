@@ -1,8 +1,10 @@
 trigger:
   - main
+  - stable-*
 
 pr:
   - main
+  - stable-*
 
 pool:
   vmImage: 'ubuntu-18.04'
