@@ -43,7 +43,7 @@ def setup_sanity_venvs(context: str) -> None:
     # NOTE: Redirection of stderr to stdout below prevents Docker from making stderr output red.
 
     display.section('Cloning Ansible')
-    subprocess.run(['git', 'clone', '--depth', '500', '--branch', 'devel', repo, clone_directory], check=True, stderr=subprocess.STDOUT)
+    subprocess.run(['git', 'clone', '--depth', '500', '--branch', 'stable-2.13', repo, clone_directory], check=True, stderr=subprocess.STDOUT)
     subprocess.run(['git', 'reset', '--hard', ref], cwd=clone_directory, check=True)
 
     if context == 'default':
