@@ -12,16 +12,25 @@ import urllib.request
 def main() -> None:
     """Main program entry point."""
     parser = argparse.ArgumentParser()
+    parser.add_argument('--branch')
     parser.add_argument('--ref')
 
     args = parser.parse_args()
+    branch = args.branch
     ref = args.ref
 
+    if not branch:
+        with open('files/ansible-test-branch.txt') as file:
+            branch = file.read().strip()
+
     if not ref:
-        with urllib.request.urlopen(f'https://api.github.com/repos/ansible/ansible/branches/devel') as response:
+        with urllib.request.urlopen(f'https://api.github.com/repos/ansible/ansible/branches/{branch}') as response:
             data = json.load(response)
 
         ref = data['commit']['sha']
+
+    with open('files/ansible-test-branch.txt', 'w') as file:
+        file.write(f'{branch}\n')
 
     with open('files/ansible-test-ref.txt', 'w') as file:
         file.write(f'{ref}\n')

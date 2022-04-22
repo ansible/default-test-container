@@ -11,6 +11,7 @@ RUN pwsh /usr/share/container-setup/default/requirements/sanity.pslint.ps1 -IsCo
 COPY files/requirements.py /usr/share/container-setup/
 RUN python3.10 /usr/share/container-setup/requirements.py default
 
+COPY files/ansible-test-branch.txt /usr/share/container-setup/
 COPY files/ansible-test-ref.txt /usr/share/container-setup/
 COPY files/prime.py /usr/share/container-setup/
 RUN python3.10 /usr/share/container-setup/prime.py default
