@@ -18,7 +18,7 @@ pool:
   vmImage: 'ubuntu-20.04'
 
 variables:
-  container_name: 'default-test-container'
+  container_name: "$(System.TeamProject)"
   python_version: '3.10'
   containmint_version: '0.1.0'
   ${{ if ne(variables['Build.Reason'], 'PullRequest') }}:
