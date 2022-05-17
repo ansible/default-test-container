@@ -1,5 +1,5 @@
 attrs==21.4.0
-coverage==4.5.4
+coverage==6.3.2
 execnet==1.9.0
 importlib-metadata==4.11.3
 iniconfig==1.1.1
@@ -7,12 +7,12 @@ mock==4.0.3
 packaging==21.3
 pluggy==1.0.0
 py==1.11.0
-pyparsing==3.0.8
-pytest==7.1.1
+pyparsing==3.0.9
+pytest==7.1.2
 pytest-forked==1.4.0
 pytest-mock==3.7.0
 pytest-xdist==2.5.0
 PyYAML==6.0
 tomli==2.0.1
-typing_extensions==4.1.1
+typing_extensions==4.2.0
 zipp==3.8.0
