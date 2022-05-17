@@ -1,16 +1,75 @@
 trigger:
-  - main
-  - stable-*
+  batch: true
+  branches:
+    include:
+      - main
+      - stable-*
+  tags:
+    include:
+      - '*'
 
 pr:
-  - main
-  - stable-*
+  branches:
+    include:
+      - main
+      - stable-*
 
 pool:
-  vmImage: 'ubuntu-18.04'
+  vmImage: 'ubuntu-20.04'
 
-steps:
-  - script: docker build -t default-test-container .
-    displayName: Build Container
-  - script: docker history default-test-container
-    displayName: Show History
+variables:
+  container_name: "$(System.TeamProject)"
+  python_version: '3.10'
+  containmint_version: '0.1.0'
+  ${{ if ne(variables['Build.Reason'], 'PullRequest') }}:
+    push_or_no_login: --push
+  ${{ else }}:
+    push_or_no_login: --no-login
+
+stages:
+  - stage: Build
+    dependsOn: []
+    jobs:
+      - job: Arch
+        steps:
+          - task: UsePythonVersion@0
+            inputs:
+              versionSpec: '$(python_version)'
+            displayName: Use Python
+          - script: pip install https://github.com/ansible/containmint/archive/v$(containmint_version).tar.gz --disable-pip-version-check --user
+            displayName: Install containmint
+          - script: >
+              containmint build
+              --tag "quay.io/ansible/scratchpad:$(container_name)-$(System.JobName)"
+              --arch "$(System.JobName)"
+              $(push_or_no_login)
+            displayName: Build
+            env:
+              CONTAINMINT_PASSWORD: $(CONTAINMINT_PASSWORD)
+        strategy:
+          matrix:
+            x86_64: {}
+            aarch64: {}
+
+  - stage: Deploy
+    dependsOn: Build
+    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+    jobs:
+      - job: Image
+        steps:
+          - task: UsePythonVersion@0
+            inputs:
+              versionSpec: '$(python_version)'
+            displayName: Use Python
+          - script: pip install https://github.com/ansible/containmint/archive/v$(containmint_version).tar.gz --disable-pip-version-check --user
+            displayName: Install containmint
+          - script: >
+              containmint merge
+              --push
+              --tag "quay.io/ansible/$(container_name):latest"
+              --tag "quay.io/ansible/$(container_name):$(Build.SourceBranchName)"
+              "quay.io/ansible/scratchpad:$(container_name)-x86_64"
+              "quay.io/ansible/scratchpad:$(container_name)-aarch64"
+            displayName: Merge
+            env:
+              CONTAINMINT_PASSWORD: $(CONTAINMINT_PASSWORD)
