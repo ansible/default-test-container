@@ -72,9 +72,6 @@ def main() -> None:
         print('%s: updated' % path)
 
     for path in untouched_paths:
-        if os.path.basename(path) == 'common.txt':
-            continue
-
         os.unlink(path)
 
         print('%s: deleted' % path)

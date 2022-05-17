@@ -1,5 +1,5 @@
 attrs==21.4.0
-coverage==6.3.2
+coverage==6.3.3
 execnet==1.9.0
 importlib-metadata==4.11.3
 iniconfig==1.1.1

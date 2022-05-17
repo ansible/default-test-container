@@ -1,3 +1,0 @@
-virtualenv == 16.7.12 ; python_version < '3'  # match ansible-test python_requirements.py
-coverage == 6.3.2 ; python_version >= '3.7'  # match ansible-test coverage_util.py:COVERAGE_VERSIONS
-coverage == 4.5.4 ; python_version < '3.7'  # match ansible-test coverage_util.py:COVERAGE_VERSIONS

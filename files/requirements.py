@@ -61,7 +61,7 @@ def setup_python(python: Python, source_directory: str, final: bool) -> None:
             if ext != '.txt' or name == 'constraints':
                 continue
 
-            if not filename.startswith('common.') and not filename.startswith('units.') and str_to_version(python.version) < (3, 8):
+            if not filename.startswith('ansible-test.') and not filename.startswith('units.') and str_to_version(python.version) < (3, 8):
                 continue
 
             requirements_list.append(filename)
