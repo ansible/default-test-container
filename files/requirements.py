@@ -105,6 +105,14 @@ def setup_python(python: Python, source_directory: str, final: bool) -> None:
         display.error('PyYAML was not compiled with libyaml support.')
         sys.exit(1)
 
+    display.section(f'Checking coverage C extension support for Python {python.version}')
+
+    result = subprocess.run([python.path, '-m', 'coverage', '--version'], capture_output=True, check=True, text=True)
+
+    if 'with C extension' not in result.stdout:
+        display.error(f'The coverage module does not have a working C extension:\n{result.stdout}')
+        sys.exit(1)
+
     display.section(f'Listing installed packages for Python {python.version}')
 
     for name, version in pip.list():
