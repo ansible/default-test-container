@@ -18,7 +18,8 @@ pool:
   vmImage: 'ubuntu-20.04'
 
 variables:
-  container_name: "$(System.TeamProject)"
+  container_name: "quay.io/ansible/$(System.TeamProject)"
+  scratchpad_tag: "quay.io/ansible/scratchpad:$(System.TeamProject)-$(Build.SourceBranchName)-$(Build.BuildId)"
   python_version: '3.10'
   containmint_version: '0.1.0'
   ${{ if ne(variables['Build.Reason'], 'PullRequest') }}:
@@ -40,7 +41,7 @@ stages:
             displayName: Install containmint
           - script: >
               containmint build
-              --tag "quay.io/ansible/scratchpad:$(container_name)-$(System.JobName)"
+              --tag "$(scratchpad_tag)-$(System.JobName)"
               --arch "$(System.JobName)"
               $(push_or_no_login)
             displayName: Build
@@ -66,10 +67,9 @@ stages:
           - script: >
               containmint merge
               --push
-              --tag "quay.io/ansible/$(container_name):latest"
-              --tag "quay.io/ansible/$(container_name):$(Build.SourceBranchName)"
-              "quay.io/ansible/scratchpad:$(container_name)-x86_64"
-              "quay.io/ansible/scratchpad:$(container_name)-aarch64"
+              --tag "$(container_name):$(Build.SourceBranchName)"
+              "$(scratchpad_tag)-x86_64"
+              "$(scratchpad_tag)-aarch64"
             displayName: Merge
             env:
               CONTAINMINT_PASSWORD: $(CONTAINMINT_PASSWORD)
