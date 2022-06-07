@@ -1,5 +1,5 @@
 attrs==21.4.0
-certifi==2021.10.8
+certifi==2022.5.18.1
 cffi==1.15.0
 charset-normalizer==2.0.12
 coverage==6.3.3
@@ -27,7 +27,7 @@ PyYAML==6.0
 requests==2.27.1
 requests-credssp==2.0.0
 requests-ntlm==1.1.0
-resolvelib==0.5.4
+resolvelib==0.8.1
 six==1.16.0
 tomli==2.0.1
 urllib3==1.26.9
