@@ -38,6 +38,11 @@ def main() -> None:
     with urllib.request.urlopen(f'https://api.github.com/repos/ansible/ansible/contents/test/lib/ansible_test/_data/requirements?ref={ref}') as response:
         files = json.loads(response.read().decode())
 
+    files.append(dict(
+        name='constants.py',
+        download_url=f'https://raw.githubusercontent.com/ansible/ansible/{ref}/test/lib/ansible_test/_util/target/common/constants.py',
+    ))
+
     requirements_dir = 'requirements'
     untouched_paths = set(os.path.join(requirements_dir, file) for file in os.listdir(requirements_dir))
 

@@ -14,6 +14,13 @@ from installer import (
     str_to_version,
 )
 
+from default.requirements.constants import (
+    CONTROLLER_PYTHON_VERSIONS,
+)
+
+CONTROLLER_MIN_PYTHON_STR = CONTROLLER_PYTHON_VERSIONS[0]
+CONTROLLER_MIN_PYTHON = str_to_version(CONTROLLER_MIN_PYTHON_STR)
+
 
 def main() -> None:
     """Main entry point."""
@@ -33,6 +40,9 @@ def main() -> None:
     else:
         source_directory = requirements_directory
         final = False
+
+    display.section(f'Setting up Python requirements')
+    display.info(f'Python {CONTROLLER_MIN_PYTHON_STR} is the minimum version supported by the Ansible controller.')
 
     for python in iterate_pythons():
         setup_python(python, source_directory, final)
@@ -61,7 +71,7 @@ def setup_python(python: Python, source_directory: str, final: bool) -> None:
             if ext != '.txt' or name == 'constraints':
                 continue
 
-            if not filename.startswith('ansible-test.') and not filename.startswith('units.') and str_to_version(python.version) < (3, 8):
+            if not filename.startswith('ansible-test.') and not filename.startswith('units.') and str_to_version(python.version) < CONTROLLER_MIN_PYTHON:
                 continue
 
             requirements_list.append(filename)
