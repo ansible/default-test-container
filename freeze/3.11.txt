@@ -2,7 +2,7 @@ attrs==22.1.0
 certifi==2022.6.15
 cffi==1.15.1
 charset-normalizer==2.1.0
-coverage==6.4.2
+coverage==6.4.3
 cryptography==37.0.4
 execnet==1.9.0
 idna==3.3
@@ -17,7 +17,7 @@ py==1.11.0
 pycparser==2.21
 pyparsing==3.0.9
 pypsrp==0.8.1
-pyspnego==0.5.3
+pyspnego==0.5.4
 pytest==7.1.2
 pytest-forked==1.4.0
 pytest-mock==3.8.2
