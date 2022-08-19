@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import pathlib
 import os
 import shutil
 import subprocess
@@ -25,8 +26,17 @@ def main() -> None:
     base_directory = os.path.dirname(os.path.abspath(__file__))
     freeze_directory = os.path.join(base_directory, context, 'freeze')
 
+    tmp = pathlib.Path('/tmp')
+
+    if unexpected := list(tmp.iterdir()):
+        raise Exception(f'Unexpected temporary files: {unexpected}')
+
     if len([name for name in os.listdir(freeze_directory) if not name.startswith('.')]):
         setup_sanity_venvs(context)
+
+    for path in tmp.iterdir():
+        display.info(f'Removing temporary file: {path}')
+        path.unlink()
 
 
 def setup_sanity_venvs(context: str) -> None:
