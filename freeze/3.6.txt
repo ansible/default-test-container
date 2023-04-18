@@ -3,13 +3,12 @@ coverage==4.5.4
 execnet==1.9.0
 importlib-metadata==4.8.3
 iniconfig==1.1.1
-mock==5.0.1
+mock==5.0.2
 packaging==21.3
 pluggy==1.0.0
 py==1.11.0
 pyparsing==3.0.9
 pytest==7.0.1
-pytest-forked==1.4.0
 pytest-mock==3.6.1
 pytest-xdist==3.0.2
 PyYAML==6.0
