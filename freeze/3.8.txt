@@ -4,9 +4,9 @@ execnet==1.9.0
 iniconfig==2.0.0
 mock==5.0.2
 packaging==23.1
-pluggy==1.0.0
-pytest==7.3.1
-pytest-mock==3.10.0
-pytest-xdist==3.2.1
+pluggy==1.2.0
+pytest==7.4.0
+pytest-mock==3.11.1
+pytest-xdist==3.3.1
 PyYAML==6.0
 tomli==2.0.1
