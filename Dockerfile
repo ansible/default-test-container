@@ -7,8 +7,8 @@ RUN pwsh /usr/share/container-setup/default/requirements/sanity.pslint.ps1 -IsCo
     rm -rf /tmp/.dotnet /tmp/Microsoft.PackageManagement
 
 RUN cd /tmp && echo 'Cython < 3' > constraints.txt && \
-    PIP_CONSTRAINT=/tmp/constraints.txt python2.7 -m pip wheel pyyaml==5.4.1 && \
-    rm constraints.txt *.whl
+    PIP_CONSTRAINT=/tmp/constraints.txt python2.7 -m pip install pyyaml==5.4.1 && \
+    rm constraints.txt
 
 COPY files/requirements.py /usr/share/container-setup/
 RUN /usr/share/container-setup/python -B /usr/share/container-setup/requirements.py default
