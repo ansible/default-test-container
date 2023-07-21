@@ -6,6 +6,8 @@ COPY freeze /usr/share/container-setup/default/freeze/
 RUN pwsh /usr/share/container-setup/default/requirements/sanity.pslint.ps1 -IsContainer && \
     rm -rf /tmp/.dotnet /tmp/Microsoft.PackageManagement
 
+RUN cd /tmp && echo 'Cython < 3' > constraints.txt && PIP_CONSTRAINT=/tmp/constraints.txt pip wheel pyyaml==5.4.1 && rm constraints.txt *.whl
+
 COPY files/requirements.py /usr/share/container-setup/
 RUN /usr/share/container-setup/python -B /usr/share/container-setup/requirements.py default
 
