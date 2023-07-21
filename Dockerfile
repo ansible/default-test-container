@@ -8,7 +8,7 @@ RUN pwsh /usr/share/container-setup/default/requirements/sanity.pslint.ps1 -IsCo
 
 RUN cd /tmp && echo 'Cython < 3' > constraints.txt && \
     PIP_CONSTRAINT=/tmp/constraints.txt python2.7 -m pip install pyyaml==5.4.1 && \
-    rm constraints.txt
+    rm -r constraints.txt /root/.cache/pip
 
 COPY files/requirements.py /usr/share/container-setup/
 RUN /usr/share/container-setup/python -B /usr/share/container-setup/requirements.py default
