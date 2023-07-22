@@ -3,8 +3,10 @@ from __future__ import annotations
 
 import argparse
 import os
+import pathlib
 import subprocess
 import sys
+import tempfile
 
 from installer import (
     Pip,
@@ -78,6 +80,13 @@ def setup_python(python: Python, source_directory: str, final: bool) -> None:
 
     pip = Pip(python)
 
+    pre_build_path = pathlib.Path(__file__).parent / 'pre-build' / f'{python.version}.txt'
+
+    if pre_build_path.exists():
+        for pre_build in parse_pre_build_instructions(pre_build_path.read_text()):
+            display.section(f'Pre-building a wheel for Python {python.version} ({pre_build.requirement})')
+            pre_build.execute(pip)
+
     for requirements in requirements_list:
         display.section(f'Installing requirements for Python {python.version} ({requirements})')
         pip.install(['-r', os.path.join(source_directory, requirements), '-c', os.path.join(source_directory, constraints)])
@@ -129,6 +138,48 @@ def setup_python(python: Python, source_directory: str, final: bool) -> None:
         display.info(f'{name} {version}')
 
     display.section(f'Completed setup of Python {python.version}')
+
+    pip.purge_cache()
+
+
+class PreBuild:
+    """Parsed pre-build instructions."""
+
+    def __init__(self, requirement: str) -> None:
+        self.requirement = requirement
+        self.constraints: list[str] = []
+
+    def execute(self, pip: Pip) -> None:
+        """Execute these pre-build instructions."""
+        with tempfile.TemporaryDirectory() as temp_dir:
+            constraints = '\n'.join(self.constraints) + '\n'
+            constraints_path = pathlib.Path(temp_dir, 'constraints.txt')
+
+            pathlib.Path(constraints_path).write_text(constraints)
+
+            pip.wheel([self.requirement], constraints=constraints_path)
+
+
+def parse_pre_build_instructions(requirements):  # type: (str) -> list[PreBuild]
+    """Parse the given pip requirements and return a list of extracted pre-build instructions."""
+    pre_build_prefix = '# pre-build '
+    pre_build_requirement_prefix = pre_build_prefix + 'requirement: '
+    pre_build_constraint_prefix = pre_build_prefix + 'constraint: '
+
+    lines = requirements.splitlines()
+    pre_build_lines = [line for line in lines if line.startswith(pre_build_prefix)]
+
+    instructions = []  # type: list[PreBuild]
+
+    for line in pre_build_lines:
+        if line.startswith(pre_build_requirement_prefix):
+            instructions.append(PreBuild(line[len(pre_build_requirement_prefix):]))
+        elif line.startswith(pre_build_constraint_prefix):
+            instructions[-1].constraints.append(line[len(pre_build_constraint_prefix):])
+        else:
+            raise RuntimeError('Unsupported pre-build comment: ' + line)
+
+    return instructions
 
 
 if __name__ == '__main__':

@@ -91,7 +91,7 @@ def setup_sanity_venvs(context: str) -> None:
 
     display.section('Cleaning Up')
     shutil.rmtree(base_directory)
-    shutil.rmtree(os.path.expanduser('~/.cache/pip'))
+    Pip.purge_cache()
 
 
 if __name__ == '__main__':
