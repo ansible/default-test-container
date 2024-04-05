@@ -1,2 +1,0 @@
-# pre-build requirement: pyyaml == 5.4.1
-# pre-build constraint: Cython < 3
