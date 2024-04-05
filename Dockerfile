@@ -1,4 +1,4 @@
-FROM quay.io/ansible/base-test-container:6.2.0
+FROM quay.io/ansible/base-test-container:7.0.0
 
 COPY requirements /usr/share/container-setup/default/requirements/
 COPY freeze /usr/share/container-setup/default/freeze/
