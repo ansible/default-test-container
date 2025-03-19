@@ -15,7 +15,7 @@ pr:
       - stable-*
 
 pool:
-  vmImage: 'ubuntu-22.04'
+  vmImage: 'ubuntu-24.04'
 
 variables:
   container_name: "quay.io/ansible/$(System.TeamProject)"
