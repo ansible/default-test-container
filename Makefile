@@ -1,6 +1,6 @@
 .PHONY: build
 build:
-	docker build -t default-test-container .
+	podman build -t default-test-container .
 
 .PHONY: update
 update:

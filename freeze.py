@@ -13,7 +13,7 @@ import typing as t
 def main() -> None:
     """Main entry point."""
     parser = argparse.ArgumentParser()
-    parser.add_argument('--container-runtime', default='docker', required=False)
+    parser.add_argument('--container-runtime', default='podman', required=False)
     parser.add_argument('container')
 
     args = parser.parse_args()
