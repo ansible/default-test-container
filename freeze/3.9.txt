@@ -1,4 +1,4 @@
-coverage==7.10.0
+coverage==7.10.5
 exceptiongroup==1.3.0
 execnet==2.1.1
 iniconfig==2.1.0
@@ -11,4 +11,4 @@ pytest-mock==3.14.1
 pytest-xdist==3.8.0
 PyYAML==6.0.2
 tomli==2.2.1
-typing_extensions==4.14.1
+typing_extensions==4.15.0
