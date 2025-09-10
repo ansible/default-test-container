@@ -20,8 +20,8 @@ pool:
 variables:
   container_name: "quay.io/ansible/$(System.TeamProject)"
   scratchpad_tag: "quay.io/ansible/scratchpad:$(System.TeamProject)-$(Build.SourceBranchName)-$(Build.BuildId)"
-  python_version: '3.10'
-  containmint_version: '0.2.0'
+  python_version: '3.13'
+  containmint_version: '0.6.0'
   ${{ if ne(variables['Build.Reason'], 'PullRequest') }}:
     push_or_no_login: --push
   ${{ else }}:
