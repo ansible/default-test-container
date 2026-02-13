@@ -1,4 +1,4 @@
-FROM quay.io/ansible/base-test-container:v2.21-0
+FROM quay.io/ansible/base-test-container:v2.21-1
 
 COPY requirements /usr/share/container-setup/default/requirements/
 COPY freeze /usr/share/container-setup/default/freeze/
