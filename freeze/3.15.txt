@@ -1,3 +1,4 @@
+--no-binary coverage
 certifi==2026.2.25
 cffi==2.0.0
 charset-normalizer==3.4.7
